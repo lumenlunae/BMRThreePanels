@@ -1,0 +1,508 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7B9039B0189B8F90009E857F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039AF189B8F90009E857F /* Foundation.framework */; };
+		7B9039B2189B8F90009E857F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039B1189B8F90009E857F /* CoreGraphics.framework */; };
+		7B9039B4189B8F90009E857F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039B3189B8F90009E857F /* UIKit.framework */; };
+		7B9039BA189B8F90009E857F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B9039B8189B8F90009E857F /* InfoPlist.strings */; };
+		7B9039BC189B8F90009E857F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039BB189B8F90009E857F /* main.m */; };
+		7B9039C0189B8F90009E857F /* BMRDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039BF189B8F90009E857F /* BMRDAppDelegate.m */; };
+		7B9039C3189B8F90009E857F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B9039C1189B8F90009E857F /* Main_iPhone.storyboard */; };
+		7B9039C6189B8F90009E857F /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B9039C4189B8F90009E857F /* Main_iPad.storyboard */; };
+		7B9039C9189B8F90009E857F /* BMRDThreePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039C8189B8F90009E857F /* BMRDThreePanelController.m */; };
+		7B9039CB189B8F90009E857F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B9039CA189B8F90009E857F /* Images.xcassets */; };
+		7B9039D2189B8F90009E857F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039D1189B8F90009E857F /* XCTest.framework */; };
+		7B9039D3189B8F90009E857F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039AF189B8F90009E857F /* Foundation.framework */; };
+		7B9039D4189B8F90009E857F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9039B3189B8F90009E857F /* UIKit.framework */; };
+		7B9039DC189B8F90009E857F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B9039DA189B8F90009E857F /* InfoPlist.strings */; };
+		7B9039DE189B8F90009E857F /* ThreePanelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039DD189B8F90009E857F /* ThreePanelsTests.m */; };
+		7B9039E9189B90F0009E857F /* BMRDTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039E8189B90F0009E857F /* BMRDTopViewController.m */; };
+		7B9039EC189B910A009E857F /* BMRDMiddleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039EB189B9109009E857F /* BMRDMiddleViewController.m */; };
+		7B9039EF189B911F009E857F /* BMRDBottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9039EE189B911F009E857F /* BMRDBottomViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7B9039D5189B8F90009E857F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B9039A4189B8F8F009E857F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B9039AB189B8F90009E857F;
+			remoteInfo = ThreePanels;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7B9039AC189B8F90009E857F /* ThreePanels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThreePanels.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B9039AF189B8F90009E857F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7B9039B1189B8F90009E857F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7B9039B3189B8F90009E857F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7B9039B7189B8F90009E857F /* ThreePanels-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThreePanels-Info.plist"; sourceTree = "<group>"; };
+		7B9039B9189B8F90009E857F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7B9039BB189B8F90009E857F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7B9039BD189B8F90009E857F /* ThreePanels-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThreePanels-Prefix.pch"; sourceTree = "<group>"; };
+		7B9039BE189B8F90009E857F /* BMRDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMRDAppDelegate.h; sourceTree = "<group>"; };
+		7B9039BF189B8F90009E857F /* BMRDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BMRDAppDelegate.m; sourceTree = "<group>"; };
+		7B9039C2189B8F90009E857F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		7B9039C5189B8F90009E857F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		7B9039C7189B8F90009E857F /* BMRDThreePanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMRDThreePanelController.h; sourceTree = "<group>"; };
+		7B9039C8189B8F90009E857F /* BMRDThreePanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BMRDThreePanelController.m; sourceTree = "<group>"; };
+		7B9039CA189B8F90009E857F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7B9039D0189B8F90009E857F /* ThreePanelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThreePanelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B9039D1189B8F90009E857F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		7B9039D9189B8F90009E857F /* ThreePanelsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThreePanelsTests-Info.plist"; sourceTree = "<group>"; };
+		7B9039DB189B8F90009E857F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7B9039DD189B8F90009E857F /* ThreePanelsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreePanelsTests.m; sourceTree = "<group>"; };
+		7B9039E7189B90F0009E857F /* BMRDTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRDTopViewController.h; sourceTree = "<group>"; };
+		7B9039E8189B90F0009E857F /* BMRDTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRDTopViewController.m; sourceTree = "<group>"; };
+		7B9039EA189B9109009E857F /* BMRDMiddleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRDMiddleViewController.h; sourceTree = "<group>"; };
+		7B9039EB189B9109009E857F /* BMRDMiddleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRDMiddleViewController.m; sourceTree = "<group>"; };
+		7B9039ED189B911F009E857F /* BMRDBottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRDBottomViewController.h; sourceTree = "<group>"; };
+		7B9039EE189B911F009E857F /* BMRDBottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRDBottomViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B9039A9189B8F90009E857F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039B2189B8F90009E857F /* CoreGraphics.framework in Frameworks */,
+				7B9039B4189B8F90009E857F /* UIKit.framework in Frameworks */,
+				7B9039B0189B8F90009E857F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B9039CD189B8F90009E857F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039D2189B8F90009E857F /* XCTest.framework in Frameworks */,
+				7B9039D4189B8F90009E857F /* UIKit.framework in Frameworks */,
+				7B9039D3189B8F90009E857F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7B9039A3189B8F8F009E857F = {
+			isa = PBXGroup;
+			children = (
+				7B9039B5189B8F90009E857F /* ThreePanels */,
+				7B9039D7189B8F90009E857F /* ThreePanelsTests */,
+				7B9039AE189B8F90009E857F /* Frameworks */,
+				7B9039AD189B8F90009E857F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7B9039AD189B8F90009E857F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039AC189B8F90009E857F /* ThreePanels.app */,
+				7B9039D0189B8F90009E857F /* ThreePanelsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B9039AE189B8F90009E857F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039AF189B8F90009E857F /* Foundation.framework */,
+				7B9039B1189B8F90009E857F /* CoreGraphics.framework */,
+				7B9039B3189B8F90009E857F /* UIKit.framework */,
+				7B9039D1189B8F90009E857F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7B9039B5189B8F90009E857F /* ThreePanels */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039BE189B8F90009E857F /* BMRDAppDelegate.h */,
+				7B9039BF189B8F90009E857F /* BMRDAppDelegate.m */,
+				7B9039C1189B8F90009E857F /* Main_iPhone.storyboard */,
+				7B9039C4189B8F90009E857F /* Main_iPad.storyboard */,
+				7B9039C7189B8F90009E857F /* BMRDThreePanelController.h */,
+				7B9039C8189B8F90009E857F /* BMRDThreePanelController.m */,
+				7B9039CA189B8F90009E857F /* Images.xcassets */,
+				7B9039B6189B8F90009E857F /* Supporting Files */,
+				7B9039E7189B90F0009E857F /* BMRDTopViewController.h */,
+				7B9039E8189B90F0009E857F /* BMRDTopViewController.m */,
+				7B9039EA189B9109009E857F /* BMRDMiddleViewController.h */,
+				7B9039EB189B9109009E857F /* BMRDMiddleViewController.m */,
+				7B9039ED189B911F009E857F /* BMRDBottomViewController.h */,
+				7B9039EE189B911F009E857F /* BMRDBottomViewController.m */,
+			);
+			path = ThreePanels;
+			sourceTree = "<group>";
+		};
+		7B9039B6189B8F90009E857F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039B7189B8F90009E857F /* ThreePanels-Info.plist */,
+				7B9039B8189B8F90009E857F /* InfoPlist.strings */,
+				7B9039BB189B8F90009E857F /* main.m */,
+				7B9039BD189B8F90009E857F /* ThreePanels-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7B9039D7189B8F90009E857F /* ThreePanelsTests */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039DD189B8F90009E857F /* ThreePanelsTests.m */,
+				7B9039D8189B8F90009E857F /* Supporting Files */,
+			);
+			path = ThreePanelsTests;
+			sourceTree = "<group>";
+		};
+		7B9039D8189B8F90009E857F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B9039D9189B8F90009E857F /* ThreePanelsTests-Info.plist */,
+				7B9039DA189B8F90009E857F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7B9039AB189B8F90009E857F /* ThreePanels */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B9039E1189B8F90009E857F /* Build configuration list for PBXNativeTarget "ThreePanels" */;
+			buildPhases = (
+				7B9039A8189B8F90009E857F /* Sources */,
+				7B9039A9189B8F90009E857F /* Frameworks */,
+				7B9039AA189B8F90009E857F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThreePanels;
+			productName = ThreePanels;
+			productReference = 7B9039AC189B8F90009E857F /* ThreePanels.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7B9039CF189B8F90009E857F /* ThreePanelsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B9039E4189B8F90009E857F /* Build configuration list for PBXNativeTarget "ThreePanelsTests" */;
+			buildPhases = (
+				7B9039CC189B8F90009E857F /* Sources */,
+				7B9039CD189B8F90009E857F /* Frameworks */,
+				7B9039CE189B8F90009E857F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7B9039D6189B8F90009E857F /* PBXTargetDependency */,
+			);
+			name = ThreePanelsTests;
+			productName = ThreePanelsTests;
+			productReference = 7B9039D0189B8F90009E857F /* ThreePanelsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B9039A4189B8F8F009E857F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = BMRD;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = BiminiRoad;
+				TargetAttributes = {
+					7B9039CF189B8F90009E857F = {
+						TestTargetID = 7B9039AB189B8F90009E857F;
+					};
+				};
+			};
+			buildConfigurationList = 7B9039A7189B8F8F009E857F /* Build configuration list for PBXProject "ThreePanels" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7B9039A3189B8F8F009E857F;
+			productRefGroup = 7B9039AD189B8F90009E857F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B9039AB189B8F90009E857F /* ThreePanels */,
+				7B9039CF189B8F90009E857F /* ThreePanelsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B9039AA189B8F90009E857F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039C6189B8F90009E857F /* Main_iPad.storyboard in Resources */,
+				7B9039CB189B8F90009E857F /* Images.xcassets in Resources */,
+				7B9039C3189B8F90009E857F /* Main_iPhone.storyboard in Resources */,
+				7B9039BA189B8F90009E857F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B9039CE189B8F90009E857F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039DC189B8F90009E857F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B9039A8189B8F90009E857F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039EF189B911F009E857F /* BMRDBottomViewController.m in Sources */,
+				7B9039EC189B910A009E857F /* BMRDMiddleViewController.m in Sources */,
+				7B9039C9189B8F90009E857F /* BMRDThreePanelController.m in Sources */,
+				7B9039E9189B90F0009E857F /* BMRDTopViewController.m in Sources */,
+				7B9039BC189B8F90009E857F /* main.m in Sources */,
+				7B9039C0189B8F90009E857F /* BMRDAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B9039CC189B8F90009E857F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B9039DE189B8F90009E857F /* ThreePanelsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7B9039D6189B8F90009E857F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B9039AB189B8F90009E857F /* ThreePanels */;
+			targetProxy = 7B9039D5189B8F90009E857F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7B9039B8189B8F90009E857F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B9039B9189B8F90009E857F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7B9039C1189B8F90009E857F /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B9039C2189B8F90009E857F /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		7B9039C4189B8F90009E857F /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B9039C5189B8F90009E857F /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		7B9039DA189B8F90009E857F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B9039DB189B8F90009E857F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7B9039DF189B8F90009E857F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7B9039E0189B8F90009E857F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7B9039E2189B8F90009E857F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreePanels/ThreePanels-Prefix.pch";
+				INFOPLIST_FILE = "ThreePanels/ThreePanels-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7B9039E3189B8F90009E857F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreePanels/ThreePanels-Prefix.pch";
+				INFOPLIST_FILE = "ThreePanels/ThreePanels-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7B9039E5189B8F90009E857F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ThreePanels.app/ThreePanels";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreePanels/ThreePanels-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ThreePanelsTests/ThreePanelsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		7B9039E6189B8F90009E857F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ThreePanels.app/ThreePanels";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreePanels/ThreePanels-Prefix.pch";
+				INFOPLIST_FILE = "ThreePanelsTests/ThreePanelsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B9039A7189B8F8F009E857F /* Build configuration list for PBXProject "ThreePanels" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B9039DF189B8F90009E857F /* Debug */,
+				7B9039E0189B8F90009E857F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B9039E1189B8F90009E857F /* Build configuration list for PBXNativeTarget "ThreePanels" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B9039E2189B8F90009E857F /* Debug */,
+				7B9039E3189B8F90009E857F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7B9039E4189B8F90009E857F /* Build configuration list for PBXNativeTarget "ThreePanelsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B9039E5189B8F90009E857F /* Debug */,
+				7B9039E6189B8F90009E857F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7B9039A4189B8F8F009E857F /* Project object */;
+}
