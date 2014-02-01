@@ -14,4 +14,14 @@
 -(void) addTopViewController:(UIViewController*)controller;
 -(void) addMiddleViewController:(UIViewController*)controller;
 -(void) addBottomViewController:(UIViewController*)controller;
+
+-(void) makeTopViewFullscreen;
+-(void) makeMiddleViewFullscreen;
+-(void) makeBottomViewFullscreen;
+
+// subclass
+-(void) topViewWillBecomeFullscreen;
+-(void) middleViewWillBecomeFullscreen;
+-(void) bottomViewWillBecomeFullscreen;
+
 @end

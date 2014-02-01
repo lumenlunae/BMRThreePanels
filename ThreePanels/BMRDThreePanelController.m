@@ -144,7 +144,45 @@
     controller.view.frame = self.bottomViewControllerFrame;
 }
 
+-(void) makeTopViewFullscreen
+{
+    self.activePanningView = self.topController.view;
+    self.activePanningViewOriginRect = self.topViewControllerFrame;
+    [self makeViewFullscreen];
+}
 
+-(void) makeMiddleViewFullscreen
+{
+    self.activePanningView = self.middleController.view;
+    self.activePanningViewOriginRect = self.middleViewControllerFrame;
+    [self makeViewFullscreen];
+}
+
+-(void) makeBottomViewFullscreen
+{
+    self.activePanningView = self.bottomController.view;
+    self.activePanningViewOriginRect = self.bottomViewControllerFrame;
+    [self makeViewFullscreen];
+}
+
+-(void) makeViewFullscreen
+{
+    CGPoint fullscreenOrigin;
+    if (self.activePanningView == self.topController.view) {
+        fullscreenOrigin = CGPointMake(0, 0);
+    } else if (self.activePanningView == self.middleController.view) {
+        fullscreenOrigin = CGPointMake(0, nearbyintf(self.viewOverlapBuffer/2));
+    } else {
+        fullscreenOrigin = CGPointMake(0, self.viewOverlapBuffer);
+    }
+    
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.activePanningView.frame = CGRectMake(fullscreenOrigin.x, fullscreenOrigin.y, self.activePanningView.frame.size.width, self.activePanningView.frame.size.height);
+        [self updateOtherViewsWithPercentageHidden:1];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 
 #pragma mark - Gestures
 -(BOOL) gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -247,13 +285,16 @@
     if (self.activePanningView == self.topController.view) {
         self.bottomController.view.frame = CGRectOffset(self.bottomViewControllerFrame, 0, offset);
         self.bottomController.view.alpha = alpha;
-    } else {
+    } else if (self.activePanningView == self.bottomController.view) {
         self.topController.view.frame = CGRectOffset(self.topViewControllerFrame, 0, offset);
         self.topController.view.alpha = alpha;
     }
+    if (self.activePanningView != self.middleController.view) {
+        self.middleController.view.frame = CGRectOffset(self.middleViewControllerFrame, 0, offset);
+        self.middleController.view.alpha = alpha;
+    }
         
-    self.middleController.view.frame = CGRectOffset(self.middleViewControllerFrame, 0, offset);
-    self.middleController.view.alpha = alpha;
+
 }
 
 -(void) resetPanningView
@@ -262,27 +303,35 @@
     if (!self.fullscreen && intersectRect.size.height > self.panHeightThreshold) {
         // go full screen
         self.fullscreen = YES;
-        CGPoint fullscreenOrigin;
-        if (self.activePanningView == self.topController.view) {
-            fullscreenOrigin = CGPointMake(0, 0);
-        } else {
-            fullscreenOrigin = CGPointMake(0, self.viewOverlapBuffer);
-        }
-        [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.activePanningView.frame = CGRectMake(fullscreenOrigin.x, fullscreenOrigin.y, self.activePanningView.frame.size.width, self.activePanningView.frame.size.height);
-            [self updateOtherViewsWithPercentageHidden:1];
-        } completion:^(BOOL finished) {
-            
-        }];
-
+        
     } else {
         self.fullscreen = NO;
         [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.activePanningView.frame = self.activePanningViewOriginRect;
             [self updateOtherViewsWithPercentageHidden:0];
         } completion:^(BOOL finished) {
-            
+            if (self.activePanningView == self.topController.view) {
+                [self topViewWillBecomeFullscreen];
+            }
         }];
     }
 }
+
+#pragma mark - Subclass Hooks
+-(void) topViewWillBecomeFullscreen
+{
+    
+}
+
+-(void) middleViewWillBecomeFullscreen
+{
+    
+}
+
+-(void) bottomViewWillBecomeFullscreen
+{
+    
+}
+
 @end
+
