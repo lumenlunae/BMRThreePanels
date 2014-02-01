@@ -8,10 +8,6 @@
 
 #import "BMRDThreePanelController.h"
 
-#import "BMRDTopViewController.h"
-#import "BMRDMiddleViewController.h"
-#import "BMRDBottomViewController.h"
-
 @interface BMRDThreePanelController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIViewController* topController;
@@ -35,14 +31,7 @@
 {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor blackColor];
-    
-    BMRDTopViewController* top = [[BMRDTopViewController alloc] init];
-    BMRDMiddleViewController* middle = [[BMRDMiddleViewController alloc] init];
-    BMRDBottomViewController* bottom = [[BMRDBottomViewController alloc] init];
-    
-    [self addTopViewController:top];
-    [self addMiddleViewController:middle];
-    [self addBottomViewController:bottom];
+
     
     UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
     panRecognizer.delegate = self;
