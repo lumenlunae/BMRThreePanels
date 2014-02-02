@@ -22,7 +22,7 @@
 @property (nonatomic, weak) UIView* activePanningView;
 @property (nonatomic, assign) CGRect activePanningViewOriginRect;
 @property (nonatomic, assign) CGFloat panHeightThreshold;
-@property (nonatomic, assign) BOOL fullscreen;
+
 @end
 
 @implementation BMRDThreePanelController
@@ -146,6 +146,9 @@
 
 -(void) makeTopViewFullscreen
 {
+    if (self.activePanningView == self.topController.view && self.fullscreen) {
+        return;
+    }
     self.activePanningView = self.topController.view;
     self.activePanningViewOriginRect = self.topViewControllerFrame;
     [self makeViewFullscreen];
@@ -153,6 +156,9 @@
 
 -(void) makeMiddleViewFullscreen
 {
+    if (self.activePanningView == self.middleController.view && self.fullscreen) {
+        return;
+    }
     self.activePanningView = self.middleController.view;
     self.activePanningViewOriginRect = self.middleViewControllerFrame;
     [self makeViewFullscreen];
@@ -160,6 +166,9 @@
 
 -(void) makeBottomViewFullscreen
 {
+    if (self.activePanningView == self.bottomController.view && self.fullscreen) {
+        return;
+    }
     self.activePanningView = self.bottomController.view;
     self.activePanningViewOriginRect = self.bottomViewControllerFrame;
     [self makeViewFullscreen];

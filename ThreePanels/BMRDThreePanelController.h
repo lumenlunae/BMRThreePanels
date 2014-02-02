@@ -10,6 +10,7 @@
 
 @interface BMRDThreePanelController : UIViewController
 
+@property (nonatomic, assign) BOOL fullscreen;
 
 -(void) addTopViewController:(UIViewController*)controller;
 -(void) addMiddleViewController:(UIViewController*)controller;
