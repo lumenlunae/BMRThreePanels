@@ -333,5 +333,16 @@
     
 }
 
+-(void) makeControllerFullScreen:(UIViewController *)controller
+{
+    if (controller == self.topController) {
+        [self makeTopViewFullscreen];
+    } else if (controller == self.middleController) {
+        [self makeMiddleViewFullscreen];
+    } else {
+        [self makeBottomViewFullscreen];
+    }
+}
+
 @end
 

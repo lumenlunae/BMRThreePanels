@@ -24,4 +24,11 @@
 -(void) middleViewWillBecomeFullscreen;
 -(void) bottomViewWillBecomeFullscreen;
 
+-(void) makeControllerFullScreen:(UIViewController*)controller;
 @end
+
+@protocol BMRDThreePanelDelegate <NSObject>
+
+@property (nonatomic, weak) BMRDThreePanelController* panelController;
+
+@end;
