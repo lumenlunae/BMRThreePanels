@@ -236,13 +236,15 @@
             return YES;
         }
     } else if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        
+        CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
         if (self.fullscreen) {
-            CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
             if (!CGRectContainsPoint(self.activePanningView.frame, point)) {
                 return YES;
             }
+        } else {
+            return YES;
         }
-
     }
     return NO;
 }
@@ -258,7 +260,16 @@
 -(void) tapAction:(UITapGestureRecognizer*)recognizer
 {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        [self resetPanningView];
+        if (self.fullscreen) {
+            [self resetPanningView];
+        } else {
+            CGPoint point = [recognizer locationInView:recognizer.view];
+            if (CGRectContainsPoint(self.topController.view.frame, point)) {
+                [self makeTopViewFullscreen];
+            } else if (CGRectContainsPoint(self.bottomController.view.frame, point)) {
+                [self makeBottomViewFullscreen];
+            }
+        }
     }
 }
 
@@ -376,6 +387,7 @@
             [self.bottomController panelControllerWillMinimize];
         }
     }
+    
 }
 
 #pragma mark - Subclass Hooks
@@ -393,17 +405,23 @@
 
 -(void) topViewWillBecomeFullscreen
 {
-    
+    if ([self.topController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.topController panelControllerWillMaximize];
+    }
 }
 
 -(void) middleViewWillBecomeFullscreen
 {
-    
+    if ([self.middleController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.middleController panelControllerWillMaximize];
+    }
 }
 
 -(void) bottomViewWillBecomeFullscreen
 {
-    
+    if ([self.bottomController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.bottomController panelControllerWillMaximize];
+    }
 }
 
 -(void) makeControllerFullScreen:(UIViewController *)controller
