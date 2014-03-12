@@ -25,6 +25,8 @@
 @property (nonatomic, assign) CGFloat panHeightThreshold;
 
 @property (nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
+
+@property (nonatomic, assign) BOOL viewFramesInitialized;
 @end
 
 @implementation BMRDThreePanelController
@@ -56,6 +58,26 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Layout
+-(void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (!self.viewFramesInitialized) {
+        [self setupViewFrames];
+        self.viewFramesInitialized = YES;
+    }
+}
+
+-(void) setupViewFrames
+{
     CGFloat thirdHeight = nearbyintf(self.view.frame.size.height/3);
     CGFloat roundedHeight = 3*thirdHeight;
     CGFloat buffer = 0;
@@ -67,17 +89,11 @@
     self.topViewHeight = panels;
     self.middleViewHeight = self.view.frame.size.height - panels - panels;
     self.bottomViewHeight = panels;
-
+    
     [self resetViewFrames];
     self.panHeightThreshold = self.view.frame.size.height / 2;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-#pragma mark - Layout
 -(void) resetViewFrames
 {
     self.topController.view.frame = self.topViewControllerFrame;
@@ -235,7 +251,8 @@
         if (ABS(translation.y) > ABS(translation.x)) {
             return YES;
         }
-    } else if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        return NO;
+    } else if (gestureRecognizer == self.tapRecognizer) {
         
         CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
         if (self.fullscreen) {
@@ -245,8 +262,9 @@
         } else {
             return YES;
         }
+        return NO;
     }
-    return NO;
+    return YES;
 }
 
 -(void) setActivePanningView:(UIView *)activePanningView
@@ -294,7 +312,7 @@
             return;
         }
     } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"Translation %f", translation.y);
+
         [self updatePanningViewWithTranslation:translation];
         
     } else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed) {
