@@ -282,10 +282,21 @@
             [self resetPanningView];
         } else {
             CGPoint point = [recognizer locationInView:recognizer.view];
+            BOOL panelControlsFullscreenAction = NO;
             if (CGRectContainsPoint(self.topController.view.frame, point)) {
-                [self makeTopViewFullscreen];
+                if ([self.topController respondsToSelector:@selector(panelControllerControlsMaximizing)]) {
+                    panelControlsFullscreenAction = [self.topController panelControllerControlsMaximizing];
+                }
+                if (!panelControlsFullscreenAction) {
+                    [self makeTopViewFullscreen];
+                }
             } else if (CGRectContainsPoint(self.bottomController.view.frame, point)) {
-                [self makeBottomViewFullscreen];
+                if ([self.bottomController respondsToSelector:@selector(panelControllerControlsMaximizing)]) {
+                    panelControlsFullscreenAction = [self.bottomController panelControllerControlsMaximizing];
+                }
+                if (!panelControlsFullscreenAction) {
+                    [self makeBottomViewFullscreen];
+                }
             }
         }
     }

@@ -35,4 +35,5 @@
 @optional
 -(void) panelControllerWillMinimize;
 -(void) panelControllerWillMaximize;
+-(BOOL) panelControllerControlsMaximizing;
 @end;
