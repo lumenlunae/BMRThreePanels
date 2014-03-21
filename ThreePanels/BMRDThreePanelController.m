@@ -178,33 +178,17 @@
 
 -(void) makeTopViewFullscreen
 {
-    if (self.activePanningView == self.topController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.topController.view;
-    self.activePanningViewOriginRect = self.topViewControllerFrame;
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.topController];
 }
 
 -(void) makeMiddleViewFullscreen
 {
-    if (self.activePanningView == self.middleController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.middleController.view;
-    self.activePanningViewOriginRect = self.middleViewControllerFrame;
-    
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.middleController];
 }
 
 -(void) makeBottomViewFullscreen
 {
-    if (self.activePanningView == self.bottomController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.bottomController.view;
-    self.activePanningViewOriginRect = self.bottomViewControllerFrame;
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.bottomController];
 }
 
 -(void) makeViewFullscreen
@@ -277,11 +261,12 @@
 #pragma mark - Tap
 -(void) tapAction:(UITapGestureRecognizer*)recognizer
 {
+    CGPoint point = [recognizer locationInView:recognizer.view];
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        if (self.fullscreen) {
+        if (self.fullscreen && !CGRectContainsPoint(self.activePanningView.frame, point)) {
             [self resetPanningView];
         } else {
-            CGPoint point = [recognizer locationInView:recognizer.view];
+            
             BOOL panelControlsFullscreenAction = NO;
             if (CGRectContainsPoint(self.topController.view.frame, point)) {
                 if ([self.topController respondsToSelector:@selector(panelControllerControlsMaximizing)]) {
@@ -455,12 +440,25 @@
 
 -(void) makeControllerFullScreen:(UIViewController *)controller
 {
+    BOOL makeFullscreen = NO;
+    CGRect controllerFrame;
     if (controller == self.topController) {
-        [self makeTopViewFullscreen];
+        makeFullscreen = YES;
+        controllerFrame = [self topViewControllerFrame];
     } else if (controller == self.middleController) {
-        [self makeMiddleViewFullscreen];
-    } else {
-        [self makeBottomViewFullscreen];
+        makeFullscreen = YES;
+        controllerFrame = [self middleViewControllerFrame];
+    } else if (controller == self.bottomController) {
+        makeFullscreen = YES;
+        controllerFrame = [self bottomViewControllerFrame];
+    }
+    if (makeFullscreen) {
+        if (self.activePanningView == controller.view && self.fullscreen) {
+            return;
+        }
+        self.activePanningView = controller.view;
+        self.activePanningViewOriginRect = controllerFrame;
+        [self makeViewFullscreen];
     }
 }
 
