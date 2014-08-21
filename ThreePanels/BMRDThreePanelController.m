@@ -10,19 +10,23 @@
 
 @interface BMRDThreePanelController () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIViewController* topController;
-@property (nonatomic, strong) UIViewController* middleController;
-@property (nonatomic, strong) UIViewController* bottomController;
+@property (nonatomic, strong) UIViewController<BMRDThreePanelDelegate>* topController;
+@property (nonatomic, strong) UIViewController<BMRDThreePanelDelegate>* middleController;
+@property (nonatomic, strong) UIViewController<BMRDThreePanelDelegate>* bottomController;
 
 @property (nonatomic, assign) CGFloat topViewHeight;
 @property (nonatomic, assign) CGFloat middleViewHeight;
 @property (nonatomic, assign) CGFloat bottomViewHeight;
 @property (nonatomic, assign) CGFloat viewOverlapBuffer;
 
+@property (nonatomic, strong) UIView* backShadowView;
 @property (nonatomic, weak) UIView* activePanningView;
 @property (nonatomic, assign) CGRect activePanningViewOriginRect;
 @property (nonatomic, assign) CGFloat panHeightThreshold;
 
+@property (nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
+
+@property (nonatomic, assign) BOOL viewFramesInitialized;
 @end
 
 @implementation BMRDThreePanelController
@@ -30,25 +34,50 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor blackColor];
 
     
     UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
     panRecognizer.delegate = self;
     [self.view addGestureRecognizer:panRecognizer];
     
-    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-    tapRecognizer.delegate = self;
-    [self.view addGestureRecognizer:tapRecognizer];
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    self.tapRecognizer.delegate = self;
+    self.tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:self.tapRecognizer];
     
     self.viewOverlapBuffer = 80;
     self.fullscreen = NO;
     
+    self.backShadowView = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.backShadowView];
+    self.backShadowView.backgroundColor = [UIColor blackColor];
+    self.backShadowView.alpha = 0;
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Layout
+-(void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (!self.viewFramesInitialized) {
+        [self setupViewFrames];
+        self.viewFramesInitialized = YES;
+    }
+}
+
+-(void) setupViewFrames
+{
     CGFloat thirdHeight = nearbyintf(self.view.frame.size.height/3);
     CGFloat roundedHeight = 3*thirdHeight;
     CGFloat buffer = 0;
@@ -60,17 +89,11 @@
     self.topViewHeight = panels;
     self.middleViewHeight = self.view.frame.size.height - panels - panels;
     self.bottomViewHeight = panels;
-
+    
     [self resetViewFrames];
-    self.panHeightThreshold = self.view.frame.size.height - thirdHeight;
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.panHeightThreshold = self.view.frame.size.height / 2;
 }
 
-#pragma mark - Layout
 -(void) resetViewFrames
 {
     self.topController.view.frame = self.topViewControllerFrame;
@@ -123,55 +146,49 @@
     [self.view addSubview:childController.view];
     [childController didMoveToParentViewController:self];
 }
--(void) addTopViewController:(UIViewController *)controller
+-(void) addTopViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
 {
     _topController = controller;
     [self addChildViewController:controller];
     controller.view.frame = self.topViewControllerFrame;
+    
+    id<BMRDThreePanelDelegate> delegate = (id)controller;
+    delegate.panelController = self;
 }
 
--(void) addMiddleViewController:(UIViewController *)controller
+-(void) addMiddleViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
 {
     _middleController = controller;
     [self addChildViewController:controller];
     controller.view.frame = self.middleViewControllerFrame;
+    
+    id<BMRDThreePanelDelegate> delegate = (id)controller;
+    delegate.panelController = self;
 }
 
--(void) addBottomViewController:(UIViewController *)controller
+-(void) addBottomViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
 {
     _bottomController = controller;
     [self addChildViewController:controller];
     controller.view.frame = self.bottomViewControllerFrame;
+    
+    id<BMRDThreePanelDelegate> delegate = (id)controller;
+    delegate.panelController = self;
 }
 
 -(void) makeTopViewFullscreen
 {
-    if (self.activePanningView == self.topController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.topController.view;
-    self.activePanningViewOriginRect = self.topViewControllerFrame;
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.topController];
 }
 
 -(void) makeMiddleViewFullscreen
 {
-    if (self.activePanningView == self.middleController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.middleController.view;
-    self.activePanningViewOriginRect = self.middleViewControllerFrame;
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.middleController];
 }
 
 -(void) makeBottomViewFullscreen
 {
-    if (self.activePanningView == self.bottomController.view && self.fullscreen) {
-        return;
-    }
-    self.activePanningView = self.bottomController.view;
-    self.activePanningViewOriginRect = self.bottomViewControllerFrame;
-    [self makeViewFullscreen];
+    [self makeControllerFullScreen:self.bottomController];
 }
 
 -(void) makeViewFullscreen
@@ -185,15 +202,26 @@
         fullscreenOrigin = CGPointMake(0, self.viewOverlapBuffer);
     }
     
-    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.activePanningView.frame = CGRectMake(fullscreenOrigin.x, fullscreenOrigin.y, self.activePanningView.frame.size.width, self.activePanningView.frame.size.height);
+    self.fullscreen = YES;
+    CGFloat duration = MAX(MIN(0.6f * (fullscreenOrigin.y / self.activePanningView.frame.origin.y), 0.6), 0.2);
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        CGFloat height = self.activePanningView.frame.size.height;
+        if (self.activePanningView == self.middleController.view) {
+            height = nearbyintf(self.view.frame.size.height - self.viewOverlapBuffer);
+        }
+        self.activePanningView.frame = CGRectMake(fullscreenOrigin.x, fullscreenOrigin.y, self.activePanningView.frame.size.width, height);
         [self updateOtherViewsWithPercentageHidden:1];
     } completion:^(BOOL finished) {
-        
+        [self viewControllerWillBecomeFullscreen];
     }];
 }
 
 #pragma mark - Gestures
+-(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
 -(BOOL) gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -207,22 +235,54 @@
         if (ABS(translation.y) > ABS(translation.x)) {
             return YES;
         }
-    } else if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        return NO;
+    } else if (gestureRecognizer == self.tapRecognizer) {
+        
+        CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
         if (self.fullscreen) {
+            if (!CGRectContainsPoint(self.activePanningView.frame, point)) {
+                return YES;
+            }
+        } else {
             return YES;
         }
-
+        return NO;
     }
-    return NO;
+    return YES;
+}
+
+-(void) setActivePanningView:(UIView *)activePanningView
+{
+    _activePanningView = activePanningView;
+    [self.activePanningView.superview bringSubviewToFront:self.activePanningView];
+    [self.view insertSubview:self.backShadowView belowSubview:self.activePanningView];
 }
 
 #pragma mark - Tap
 -(void) tapAction:(UITapGestureRecognizer*)recognizer
 {
+    CGPoint point = [recognizer locationInView:recognizer.view];
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        CGPoint point = [recognizer locationInView:recognizer.view];
-        if (!CGRectContainsPoint(self.activePanningView.frame, point)) {
+        if (self.fullscreen && !CGRectContainsPoint(self.activePanningView.frame, point)) {
             [self resetPanningView];
+        } else {
+            
+            BOOL panelControlsFullscreenAction = NO;
+            if (CGRectContainsPoint(self.topController.view.frame, point)) {
+                if ([self.topController respondsToSelector:@selector(panelControllerControlsMaximizing)]) {
+                    panelControlsFullscreenAction = [self.topController panelControllerControlsMaximizing];
+                }
+                if (!panelControlsFullscreenAction) {
+                    [self makeTopViewFullscreen];
+                }
+            } else if (CGRectContainsPoint(self.bottomController.view.frame, point)) {
+                if ([self.bottomController respondsToSelector:@selector(panelControllerControlsMaximizing)]) {
+                    panelControlsFullscreenAction = [self.bottomController panelControllerControlsMaximizing];
+                }
+                if (!panelControlsFullscreenAction) {
+                    [self makeBottomViewFullscreen];
+                }
+            }
         }
     }
 }
@@ -247,9 +307,8 @@
             recognizer.enabled = YES;
             return;
         }
-        [self.activePanningView.superview bringSubviewToFront:self.activePanningView];
     } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        
+
         [self updatePanningViewWithTranslation:translation];
         
     } else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed) {
@@ -290,20 +349,18 @@
         offset = -offset;
     }
    
-    CGFloat alpha = 1 - percent;
     if (self.activePanningView == self.topController.view) {
         self.bottomController.view.frame = CGRectOffset(self.bottomViewControllerFrame, 0, offset);
-        self.bottomController.view.alpha = alpha;
     } else if (self.activePanningView == self.bottomController.view) {
         self.topController.view.frame = CGRectOffset(self.topViewControllerFrame, 0, offset);
-        self.topController.view.alpha = alpha;
+
     }
     if (self.activePanningView != self.middleController.view) {
         self.middleController.view.frame = CGRectOffset(self.middleViewControllerFrame, 0, offset);
-        self.middleController.view.alpha = alpha;
     }
         
-
+    
+    self.backShadowView.alpha = percent;
 }
 
 -(void) resetPanningView
@@ -312,44 +369,96 @@
     if (!self.fullscreen && intersectRect.size.height > self.panHeightThreshold) {
         // go full screen
         self.fullscreen = YES;
-        
+        [self makeViewFullscreen];
     } else {
         self.fullscreen = NO;
+        [self viewControllerWillMinimize];
         [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.activePanningView.frame = self.activePanningViewOriginRect;
             [self updateOtherViewsWithPercentageHidden:0];
         } completion:^(BOOL finished) {
-            if (self.activePanningView == self.topController.view) {
-                [self topViewWillBecomeFullscreen];
-            }
+            
         }];
     }
 }
 
+
+-(void) viewControllerWillMinimize
+{
+    self.tapRecognizer.cancelsTouchesInView = NO;
+    [self.activePanningView endEditing:YES];
+    
+    if (self.activePanningView == self.topController.view) {
+        if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+            [self.topController panelControllerWillMinimize];
+        }
+    } else if (self.activePanningView == self.middleController.view) {
+        if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+            [self.middleController panelControllerWillMinimize];
+        }
+    } else if (self.activePanningView == self.bottomController.view) {
+        if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+            [self.bottomController panelControllerWillMinimize];
+        }
+    }
+    
+}
+
 #pragma mark - Subclass Hooks
+-(void) viewControllerWillBecomeFullscreen
+{
+    self.tapRecognizer.cancelsTouchesInView = YES;
+    if (self.activePanningView == self.topController.view) {
+        [self topViewWillBecomeFullscreen];
+    } else if (self.activePanningView == self.middleController.view) {
+        [self middleViewWillBecomeFullscreen];
+    } else if (self.activePanningView == self.bottomController.view) {
+        [self bottomViewWillBecomeFullscreen];
+    }
+}
+
 -(void) topViewWillBecomeFullscreen
 {
-    
+    if ([self.topController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.topController panelControllerWillMaximize];
+    }
 }
 
 -(void) middleViewWillBecomeFullscreen
 {
-    
+    if ([self.middleController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.middleController panelControllerWillMaximize];
+    }
 }
 
 -(void) bottomViewWillBecomeFullscreen
 {
-    
+    if ([self.bottomController respondsToSelector:@selector(panelControllerWillMaximize)]) {
+        [self.bottomController panelControllerWillMaximize];
+    }
 }
 
 -(void) makeControllerFullScreen:(UIViewController *)controller
 {
+    BOOL makeFullscreen = NO;
+    CGRect controllerFrame;
     if (controller == self.topController) {
-        [self makeTopViewFullscreen];
+        makeFullscreen = YES;
+        controllerFrame = [self topViewControllerFrame];
     } else if (controller == self.middleController) {
-        [self makeMiddleViewFullscreen];
-    } else {
-        [self makeBottomViewFullscreen];
+        makeFullscreen = YES;
+        controllerFrame = [self middleViewControllerFrame];
+    } else if (controller == self.bottomController) {
+        makeFullscreen = YES;
+        controllerFrame = [self bottomViewControllerFrame];
+    }
+    if (makeFullscreen) {
+        if (self.activePanningView == controller.view && self.fullscreen) {
+            return;
+        }
+        self.activePanningView = controller.view;
+        self.activePanningViewOriginRect = controllerFrame;
+        [self makeViewFullscreen];
     }
 }
 
