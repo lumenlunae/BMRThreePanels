@@ -154,6 +154,10 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
+    
+    if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+        [self.topController panelControllerWillMinimize];
+    }
 }
 
 -(void) addMiddleViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
@@ -164,6 +168,10 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
+    
+    if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+        [self.middleController panelControllerWillMinimize];
+    }
 }
 
 -(void) addBottomViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
@@ -174,6 +182,10 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
+    
+    if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize)]) {
+        [self.bottomController panelControllerWillMinimize];
+    }
 }
 
 -(void) makeTopViewFullscreen
