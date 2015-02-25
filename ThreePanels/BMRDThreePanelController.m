@@ -36,7 +36,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
 
-    
     UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
     panRecognizer.delegate = self;
     [self.view addGestureRecognizer:panRecognizer];
@@ -92,6 +91,27 @@
     
     [self resetViewFrames];
     self.panHeightThreshold = self.view.frame.size.height / 2;
+    
+    if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+        [self.topController panelControllerWillMinimize:self.topViewControllerFrame];
+    }
+    if ([self.topController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+        [self.topController panelControllerDidMinimize];
+    }
+    
+    if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+        [self.middleController panelControllerWillMinimize:self.middleViewControllerFrame];
+    }
+    if ([self.middleController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+        [self.middleController panelControllerDidMinimize];
+    }
+    
+    if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+        [self.bottomController panelControllerWillMinimize:self.bottomViewControllerFrame];
+    }
+    if ([self.bottomController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+        [self.bottomController panelControllerDidMinimize];
+    }
 }
 
 -(void) resetViewFrames
@@ -154,10 +174,6 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
-    
-    if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-        [self.topController panelControllerWillMinimize];
-    }
 }
 
 -(void) addMiddleViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
@@ -168,10 +184,6 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
-    
-    if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-        [self.middleController panelControllerWillMinimize];
-    }
 }
 
 -(void) addBottomViewController:(UIViewController<BMRDThreePanelDelegate>*)controller
@@ -182,10 +194,6 @@
     
     id<BMRDThreePanelDelegate> delegate = (id)controller;
     delegate.panelController = self;
-    
-    if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-        [self.bottomController panelControllerWillMinimize];
-    }
 }
 
 -(void) makeTopViewFullscreen
@@ -216,6 +224,9 @@
     
     self.fullscreen = YES;
     CGFloat duration = MAX(MIN(0.6f * (fullscreenOrigin.y / self.activePanningView.frame.origin.y), 0.6), 0.2);
+    
+    [self viewControllerWillBecomeFullscreen];
+    
     [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
         CGFloat height = self.activePanningView.frame.size.height;
         if (self.activePanningView == self.middleController.view) {
@@ -224,7 +235,7 @@
         self.activePanningView.frame = CGRectMake(fullscreenOrigin.x, fullscreenOrigin.y, self.activePanningView.frame.size.width, height);
         [self updateOtherViewsWithPercentageHidden:1];
     } completion:^(BOOL finished) {
-        [self viewControllerWillBecomeFullscreen];
+        
     }];
 }
 
@@ -337,6 +348,7 @@
     if (intersectRect.size.height < self.view.frame.size.height) {
         self.activePanningView.frame = panRect;
         CGFloat percent = intersectRect.size.height / self.view.frame.size.height;
+        [self viewControllerDidScroll];
         [self updateOtherViewsWithPercentageHidden:percent];
     } else {
     }
@@ -387,9 +399,10 @@
         [self viewControllerWillMinimize];
         [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:-10 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.activePanningView.frame = self.activePanningViewOriginRect;
+            
             [self updateOtherViewsWithPercentageHidden:0];
         } completion:^(BOOL finished) {
-            
+            [self viewControllerDidMinimize];
         }];
     }
 }
@@ -401,21 +414,53 @@
     [self.activePanningView endEditing:YES];
     
     if (self.activePanningView == self.topController.view) {
-        if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-            [self.topController panelControllerWillMinimize];
+        if ([self.topController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+            [self.topController panelControllerWillMinimize:self.activePanningViewOriginRect];
         }
     } else if (self.activePanningView == self.middleController.view) {
-        if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-            [self.middleController panelControllerWillMinimize];
+        if ([self.middleController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+            [self.middleController panelControllerWillMinimize:self.activePanningViewOriginRect];
         }
     } else if (self.activePanningView == self.bottomController.view) {
-        if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize)]) {
-            [self.bottomController panelControllerWillMinimize];
+        if ([self.bottomController respondsToSelector:@selector(panelControllerWillMinimize:)]) {
+            [self.bottomController panelControllerWillMinimize:self.activePanningViewOriginRect];
         }
     }
-    
 }
 
+-(void) viewControllerDidMinimize
+{
+    if (self.activePanningView == self.topController.view) {
+        if ([self.topController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+            [self.topController panelControllerDidMinimize];
+        }
+    } else if (self.activePanningView == self.middleController.view) {
+        if ([self.middleController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+            [self.middleController panelControllerDidMinimize];
+        }
+    } else if (self.activePanningView == self.bottomController.view) {
+        if ([self.bottomController respondsToSelector:@selector(panelControllerDidMinimize)]) {
+            [self.bottomController panelControllerDidMinimize];
+        }
+    }
+}
+
+- (void)viewControllerDidScroll
+{
+    if (self.activePanningView == self.topController.view) {
+        if ([self.topController respondsToSelector:@selector(panelControllerDidScroll)]) {
+            [self.topController panelControllerDidScroll];
+        }
+    } else if (self.activePanningView == self.middleController.view) {
+        if ([self.middleController respondsToSelector:@selector(panelControllerDidScroll)]) {
+            [self.middleController panelControllerDidScroll];
+        }
+    } else if (self.activePanningView == self.bottomController.view) {
+        if ([self.bottomController respondsToSelector:@selector(panelControllerDidScroll)]) {
+            [self.bottomController panelControllerDidScroll];
+        }
+    }
+}
 #pragma mark - Subclass Hooks
 -(void) viewControllerWillBecomeFullscreen
 {

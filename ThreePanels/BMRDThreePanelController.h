@@ -33,7 +33,9 @@
 @property (nonatomic, weak) BMRDThreePanelController* panelController;
 
 @optional
--(void) panelControllerWillMinimize;
--(void) panelControllerWillMaximize;
--(BOOL) panelControllerControlsMaximizing;
+- (void)panelControllerWillMinimize:(CGRect)minimizedFrame;
+- (void)panelControllerDidMinimize;
+- (void)panelControllerWillMaximize;
+- (void)panelControllerDidScroll;
+- (BOOL)panelControllerControlsMaximizing;
 @end;
